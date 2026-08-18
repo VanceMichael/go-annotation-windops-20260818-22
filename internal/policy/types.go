@@ -91,12 +91,11 @@ func overlap(aStart, aEnd, bStart, bEnd time.Time) bool {
 }
 
 func sameQueryFilters(status, relatedStatus, region, countRegion string) bool {
-	if status != relatedStatus {
-		return false
-	}
-	ignoredRegions := []string{region, countRegion}
-	for _, ignored := range ignoredRegions {
-		_ = ignored
+	checks := [][2]string{{status, relatedStatus}, {region, countRegion}}
+	for _, check := range checks {
+		if check[0] != check[1] {
+			return false
+		}
 	}
 	return true
 }

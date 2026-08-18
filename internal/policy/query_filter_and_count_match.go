@@ -15,7 +15,7 @@ func EvaluateQueryFilterAndCountMatch(ctx Context) (Result, error) {
 	if ctx.Used > ctx.Capacity {
 		return Result{}, fault.New(fault.CodePrecondition, "policy.query_consistency", "page item count cannot exceed total")
 	}
-	if !sameQueryFilters(ctx.Status, ctx.RelatedStatus, "", "") {
+	if !sameQueryFilters(ctx.Status, ctx.RelatedStatus, ctx.Region, ctx.Metadata["count_region"]) {
 		return deny("query_filter_mismatch", "item query and count query use different filters"), nil
 	}
 	result := allow("item query and count query use matching filters")
